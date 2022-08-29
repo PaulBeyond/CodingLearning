@@ -238,3 +238,86 @@ pi = malloc(25 * sizeof(int));
 构建链表：单链表、双链表
 
 ## CHAPTER_13_高级指针话题(Page 278)
+
+多层间接访问
+
+```c++
+int ***pi;
+int (*f) ();
+```
+
+函数调用操作符的优先级高于间接访问操作符
+
+下标操作符的优先级高于间接访问操作符
+
+函数指针！
+
+```c++
+int f(int);
+int (*pf)(int) = & f; // 创建函数指针pf指向f
+int ans = f(25);
+int ans = (*pf)(25);
+int ans = pf(25); // 间接访问操作非必须
+```
+
+传递命令行参数
+
+```c++
+int main(int argc, char ** argv)
+```
+
+处理命令行参数
+
+## CHAPTER_14_预处理器
+
+```C++
+_FILE_ // 进行编译的源文件名称
+_LINE_ // 文件当前的行号
+_DATE_ // 文件被编译的日期
+_TIME_ // 文件被编译的时间
+_STDC_ // 如果编译遵循ANSI_C，其值为1，否则未定义
+#define name stuff // 	宏定义(defined macro)
+#undef name // 移出一个宏定义
+```
+
+条件编译
+
+```c++
+#if constant-expression
+#elif
+#else
+#endif
+```
+
+是否被定义
+
+```C++
+#ifndef
+#if defined()
+#ifdef
+#id !defined()
+```
+
+## CHAPTER_15_输入输出函数
+
+## CHAPTER_16_标准函数库
+
+## CHAPTER_17_经典抽象数据类型
+
+内存分配：
+
+1. 静态数组：结构长度固定，编译时即确定，不容易出错
+2. 动态数组：灵活性与复杂性的权衡取舍
+3. 链式结构：最大程度上的灵活性，每个元素在需要的时候才单独进行分配，几乎没有数量限制，但是访问特定元素的效率不如数组
+
+堆栈(stack)：后进先出
+
+1. 堆栈接口：pop(将栈顶元素移出，不返回)，push，top(返回栈顶元素，不移出)
+2. 实现堆栈：
+
+队列(Queue)：先进先出
+
+树(Tree):
+
+## CHAPTER_18_运行时环境
+
