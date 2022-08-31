@@ -1,3 +1,5 @@
+[TOC]
+
 # BOOK_1_C与指针
 
 ## CHAPTER_1_上手
@@ -321,3 +323,51 @@ _STDC_ // 如果编译遵循ANSI_C，其值为1，否则未定义
 
 ## CHAPTER_18_运行时环境
 
+
+
+# BOOK_2_C++_Primer_Plus
+
+## CHAPTER_0_前言
+
+现代C++语言组成部分：低级语言(继承自C语言)、现代高级语言特性、标准库。
+
+## CHAPTER_1_开始
+
+编译命令
+
+初始输入输出：
+
+1. cin 和 cout
+2. cerr：输出警告和错误信息，称作标准错误
+3. clog：用于输出程序运行的一般性信息
+
+标准库定义的所有名字都在命名空间`std`中，可以通过使用作用域运算符(::)来指出想使用定义在命名空间的名字
+
+注释界定符不能嵌套
+
+### 读取数量不定的输入数据
+
+```c++
+#include <iostream>
+int main()
+{
+	int sum = 0, value = 0;
+	while(std::cin >> value)
+    /*
+    * 若流是有效的，则检测成功，若遇到无效输入或者遇到文件结束符(end-of-file)，则返回False结束循环
+    */
+		sum += value;
+	std::cout << "Sum is: " << sum << std::endl;
+	return 0;
+}
+```
+
+Tips：Win系统中输入文件结束符的方法是Ctrl + Z，然后Enter或者Return；在Unix或者macOS中，用Ctrl+D。
+
+### 类简介
+
+通过定义一个类(class)来定义自己的数据结构
+
+## CHAPTER_2_变量和基本类型
+
+算数类型(arithmetic type，包括字符、整型数、布尔值和浮点数)和空类型(void)
