@@ -543,24 +543,55 @@ struct关键字
 
 ## CHAPTER_3_字符串、向量和数组
 
+  使用using声明，可以不再使用专门的前缀(::)，具体有：
 
+```c++
+using namespace ::name;
+```
 
+位于头文件的代码，一般来说不应该使用using声明，因为头文件的内容会拷贝到所有引用它的文件中取，如果头文件中有某个using声明，那么每个使用该头文件的文件就会有这个声明，有可能存在始料未及的名字冲突
 
+### 标准库类型string
 
+标准库类型string表示可变长的字符序列，使用string应该首先包含string头文件，作为标准库的一部分，string也被定义在命名空间std中
 
+定义和初始化string对象：
 
+```c++
+string s4(10, 'c'); // s4 = "cccccccccc"
+```
 
+直接初始化：不使用等号<->拷贝初始化，使用等号（除了上面代码只能直接初始化，其他两者差不多）
 
+读写string对象：
 
+```c++
+cin >> str ; // 将string对象读入str，遇到空白停止
+getlint(cin, line); //读取一行
+```
 
+string类型的比较：
 
+1. 相等，完全相等
+2. 如果string长度不一样，而且较短的string对象的每个字符都与较长string对象对应位置上的字符相同，短的小
+3. 如果两个string对象在某些对应位置不一致，则string对象比较的结果其实是string对象中第一个相异字符的比较结果
 
+标准库允许将字符字面值和字符串字面值转化为string对象
 
+### 标准库类型vector
 
+vector容纳着其他对象，所以常被称作容器，包含于vector头文件
 
+![image-20220909000256435](C:\Users\Hongji-Li\AppData\Roaming\Typora\typora-user-images\image-20220909000256435.png)
 
+列表初始化vector对象：
 
+```c++
+vector<int> ivec;
+vector<int> ivec1(ivec);
+vector<int> ivec2 = ivec;
 
+```
 
 
 
@@ -669,4 +700,532 @@ struct关键字
 
 
 
-# END_FILE(LOADING_BOOK_2_PAGES_100)
+
+
+
+## END_FILE(LOADING_BOOK_2_PAGES_114)
+
+
+
+# BOOK_3_First_Line_in_Android
+
+## CHAPTER_1_BEGIN
+
+Android系统架构：Linux内核层，系统运行库层，应用框架层，应用层
+
+1. Linux内核层，Android系统是基于Linux内核的，这一层为Android设备的各种硬件提供了底层的驱动
+2. 系统运行库层：这一层通过一些C/C++为Android提供主要的特性支持，也包含Android运行时库，提供一些核心库并允许开发者使用Java编写Android应用。Android运行时库中包含ART运行环境，使得每一个Android应用都能运行在独立的进程中，并拥有一个自己的虚拟机实例
+3. 应用框架层：主要提供了构建应用程序可能用到的API
+4. 应用层：所有安装在手机上的应用程序都属于这一层
+
+### Android开发特色：
+
+1. 四大组件：Activity, Service, BroadcastReceiver, and ContentProvider.
+2. 丰富的系统控件
+3. SQLite数据库
+4. 强大的多媒体
+
+### 环境搭建。
+
+Project模式的项目结构：
+
+1. .gradle 和 .idea ：放置Android Studio自动生成的文件，无需关心or手动编辑
+2. app：项目中的代码、资源等内容
+3. build：编译时自动产生的文件
+4. gradle：包含gradle wrapper的配置文件，使用gradle wrapper的方式不需要提前将gradle下载好，而是自动根据本地的缓存情况决定是否需要联网下载gradle。Android Studio默认是启用gradle wrapper方式的，也可以改成离线模式
+5. .gitignore：用来将制定的目录或文件排除在版本控制之外
+6. build.gradle：项目全局的gradle构建脚本，通常这个文件中的内容是不需要修改的
+7. gradle.properties：全局的gradle配置文件
+8. gradlew和gradlew.bat：使用命令行界面执行gradle命令，前者是Linux或者Mac，后者是Win
+9. HelloWorld.iml：iml文件是所有Intellij IDEA项目都会自动生成的一个文件，用于标识这是一个IntelliJ IDEA项目，无需修改
+10. local.properties：用于指定本机中的Android SDK路径，通常内容是自动生成的
+11. settings.gradle：用于指定项目中所有引入的模块，通常也是自动完成的
+
+### APP目录结构：
+
+1. build:包含一些在编译时自动产生的文件，不需要过多关心
+2. libs: 如果使用第三方jar包，就需要把这些jar包放在对应的libs目录下，放在这个目录下的jar包会自动添加到该项目的构建路径里
+3. AndroidTest：编写测试用例
+4. java：存放代码的位置，会自动生成一个mainactivity文件
+5. res：包含所有用到的资源，图片放在drawable中，布局放在layout中，字符串放在values中等等
+6. AndroidManifest.xml：整个Android项目的配置文件
+7. test：编写unit test测试用例
+8. .gitignore文件：将APP模块内指定......
+9. app.iml：intelliJ IDEA项目自动生成的文件
+10. build.gradle: 构建脚本
+11. proguard-rules.pro: 该文件用于指定项目代码的混淆规则，当代码开发完打包成安装包文件，如果不希望被别人破解，通常会将代码进行混淆，从而让破解者难以阅读
+
+AndroidManifest.xml里面注册的activity才是有效的，其中intent-filter里面有两行代码：
+
+```kotlin
+<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+```
+
+表示MainActivity是这个项目的主activity，在手机上点击这个应用图标，首先启动的是这个activity
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    // 继承来自AppCompatActivity，为AndroidX中提供向下兼容的一种activity
+    // Activity类是Android系统提供的一种基类，所有自定义的activity都必须继承它或者它的子类才能拥有
+    //Activity特性，AppCompatActivity是Activity的一个子类
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+}
+```
+
+Android程序的设计讲究逻辑和视图分离，一般不在activity中直接编写界面，而是在布局文件中编写界面，而后在activity中引入进来。在onCreate()方法的第二行调用了setContentView()方法，这个方法给当前的Activity引入了一个activity_main布局
+
+### res目录简介：
+
+1. 以drawable开头的目录都是用来放图片的
+2. 以mipmap开头的目录都是用来放应用图标
+3. 以values开头的目录都是用来放字符串、样式、颜色等配置
+4. 以layout开头的目录都是用来放布局文件的。
+
+res/values/strings.xml文件:
+
+```kotlin
+<resources>
+    <string name="app_name">My Application</string>
+</resources>
+```
+
+1. 代码中通过R.string.app_name可以获得该字符串的引用；
+2. 在XML中通过@string/app_name可以获得该字符串的引用。
+
+若是引用图片资源则将string改为drawable，应用图标则改为mipmap，布局文件则为layout
+
+### 使用log工具：
+
+Android中的日志工具是Log(android.util.Log)
+
+Log.v() -> verbose
+
+Log.d() -> debug
+
+Log.i() -> info
+
+Log.w() -> warning
+
+Log.e() -> error
+
+```kotlin
+Log.d("MainActivity", "onCreate execute")
+```
+
+Log.d传入了两个参数：第一个参数是tag，一般传入当前的类名，对打印信息过滤；第二个参数msg，即log内容
+
+运行后会打印在logcat中
+
+
+
+## CHAPTER_2_快速入门Kotlin语言
+
+如何运行Kotlin代码：
+
+1. 使用IntelliJ IDEA
+
+2. 在线运行Kotlin代码
+
+   [Kotlin在线网站]: https://try.kotlinlang.org
+
+3. 使用Android Studio，随便打开一个Android项目，在里面编写一个Kotlin的main()函数，就可以独立运行
+
+### 变量与函数
+
+Kotlin中定义变量只允许在变量前声明两种关键字：val和var
+
+1. val用来声明一个不可变的变量
+2. var用来声明一个可变的变量
+
+```kotlin
+val a : Int = 10
+```
+
+显示声明变量a为int类型，Int首字母为大写，在Kotlin中Int变成一个类
+
+```kotlin
+fun methodName(param1 : Int, param2 : Int): Int{
+	return 0
+}
+```
+
+参数括号后面的那部分是可选的，用于声明该函数会返回声明类型的数据，若不需要返回任何数据，可直接不写
+
+Android Studio代码补全功能
+
+导入函数包
+
+### 程序的逻辑控制
+
+```kotlin
+// if 语句
+if(nums1 > nums2){
+	value = nums1
+}
+else{
+	value = nums2
+}
+```
+
+```Kotlin
+// when 语句 相当于switch
+fun getScore(name: String) = when (name) {
+    "Tom" -> 86
+    "Jim" -> 77
+    "Jack" -> 95
+    "Lily" -> 100
+    else -> 0
+}
+
+// 匹配值 -> {逻辑执行}
+// when 允许类型匹配
+fun checkNumber(num: Number) {
+    when (num) {
+    	is Int -> println("number is Int")
+    	is Double -> println("number is Double")
+    	else -> println("number not support")
+    }
+}
+```
+
+```Kotlin
+// 循环语句
+val range = 0..10 // [0,10]闭区间
+val range1 = 0 until 10 // [0,10)
+val range2 = 0 until 10 step 2  // 0 2 4 6 8
+val range3 = 10 downTo 1 // 10 -> 1
+for (i in 0..10)
+{
+    println(i)
+}
+```
+
+### 面向对象编程
+
+```kotlin
+class Person{
+	var name = ""
+    var age = 0
+    
+    fun eat() {
+        println(name + " is eating. He is " + age " years old.")
+    }
+}
+val p = Person()
+p.name = "Jack"
+p.age = 19
+p.eat()
+```
+
+#### 继承与构造函数
+
+创建类student
+
+```kotlin
+class Student{
+	var sno = ""
+	var grade = 0
+}
+```
+
+让Student类继承Person类，需要做:
+
+1. 使Person类可以被继承，即在Person类前加关键字open
+
+```kotlin
+open class Person{
+......
+}
+```
+
+2. 让Student类继承Person类
+
+```kotlin
+class Student : Person(){
+	......
+}
+```
+
+主构造函数：没有函数体，直接定义在类名的后面
+
+```kotlin
+class Student(val sno:String, val grade:Int) : Person() {}
+```
+
+在主构造函数中引入逻辑，可在init结构体中写
+
+```kotlin
+class Student(val sno:String, val grade:Int) : Person() {
+	init{
+		println("sno is " + sno)
+		println("grade is " + grade)
+	}
+}
+```
+
+Person类后面的空括号表示要去调用Person类中无参数的构造函数，但Person类如下改写后，Student类也需要改写：
+
+```kotlin
+open class Person(val name : String, val age : Int){}
+
+class student(val sno: String, val grade : Int, name : String, age: Int):
+	Person(name, age){
+    ......
+}
+```
+
+Student类的主构造函数必须加入name和age两个参数并传给Person类的构造函数
+
+需要注意的是，student 类的主构造函数中不将name和age声明成val，是为了避免与父类中的字段冲突
+
+次构造函数：有函数体，规定一个类既有主构造函数又有次构造函数时，所有次构造函数都必须调用主构造函数（包括间接调用）。
+
+```kotlin
+open class Person(val name : String, val age : Int){}
+
+class student(val sno: String, val grade : Int, name : String, age: Int):
+	Person(name, age){
+    constructor(name: String, age : Int) : this("", 0, name, age){
+        
+    }
+    constructor() : this("", 0){}
+}
+```
+
+次构造函数通过constructor定义，可以如下构造
+
+```kotlin
+val student1 = Student()
+val student2 = Student("Jack", 19)
+val student3 = Student("a123", 5, "Jack", 19)
+```
+
+只有次构造函数，没有主构造函数，也是允许的
+
+#### 接口
+
+接口中的函数不要求有函数体：
+
+```kotlin
+interfaace Study {
+	fun readBooks()
+	fun doHomework()
+}
+```
+
+接下来让Student类去实现Study接口，代码调整如下：
+
+```kotlin
+class Student(name : String, age : Int) : Person(name, age), Study {
+	override fun readBooks(){
+		println(name + " is reading.")
+	}
+	override fun doHomework(){
+		println(name + " is doing homework.")
+	}
+}
+```
+
+接口的后面不需要加上括号，因为它没有构造函数去调用
+
+Study接口中定义了两个待实现的函数，因此Student类中必须实现这两个函数，Kotlin中使用override关键字来重写父类或者实现接口中的函数
+
+```kotlin
+fun main(){
+    val student = Student("Jack", 19)
+    doStudy(student)
+}
+fun doStudy(study : Study) {
+    study.readBooks()
+    study.dohomework()
+}
+```
+
+由于student类实现了Study接口，所以Student类的实例是可以传递给doStudy函数的
+
+即面向接口编程，也称多态
+
+Kotlin中允许对接口中定义的函数进行默认实现
+
+Kotlin的可见性修饰符：public, private, protected和internal，直接定义在fun关键字的前面即可，默认为public
+
+![image-20220921005322693](C:\Users\Hongji-Li\AppData\Roaming\Typora\typora-user-images\image-20220921005322693.png)
+
+#### 数据类和单例类
+
+数据类：用于将服务器端或数据库中的数据映射到内存中，为编程逻辑提供数据模型的支持
+
+数据类通常需要重写equals(), hashCode(), toString()这几个方法
+
+在类前声明了data关键字时，表明你希望这个类是一个数据类，Kotlin会根据主构造函数中的参数将上述方法自动生成
+
+单例类：避免构建重复对象，若某个类在全局最多只拥有一个实例，则可以使用单例模式
+
+在Kotlin中只需要将class关键字改成object
+
+### lambda编程
+
+List, Set和Map在Java中都是接口，List的主要实现类为ArrayList, LinkedList, Set的主要实现类为HashSet, Map的主要实现类是HashMap
+
+```kotlin
+val list = ArrayList<String>()
+list.add("Apple")
+```
+
+Kotlin use a internal function called listOf() to simplify the process of initializing a list
+
+```kotlin
+val list = listOf("Apple", "Banana")
+```
+
+use for-in to through a list
+
+listOf() is used to create a const list
+
+then we have a function mutableListOf() to create a variable list
+
+repetitive elements will only save one in set
+
+Kotlin also provide mapOf() and mutableMapOf() to simplify the process of using hashMap
+
+```kotlin
+for((fruit, number) in map){
+    ...
+}
+```
+
+ grammar of lambda function:
+
+{param1 : type1, param2 : type2  -> FunctionBody}
+
+the last row of FunctionBody is thought to be a return value as a default
+
+when lambda param is the last param, the lambda expression can be moved out of bracket
+
+```kotlin
+val maxLengthFruit = list.maxBy() {fruit : String -> fruit.length}
+```
+
+if lambda param is the only param, the bracket of function can be omit
+
+```kotlin
+val maxLengthFruit = list.maxBy {fruit : String -> fruit.length}
+```
+
+Finally, when there is only one param in lambda expression, we can use it to replace the param explanation
+
+```kotlin
+val maxLengthFruit = list.maxBy {it.length}
+```
+
+filter() function
+
+API: any() use to judge whether any element is match condition in the list
+
+API: all()
+
+```kotlin
+val anyResult = list.any {it.length <= 5}
+val allResult = list.all {it.length <= 5}
+```
+
+Java thread class:
+
+```Java
+new Tread(new Runnable() {
+	@Override
+    public void run() {
+        System.out.println("Thread is running");
+    }
+}).start();
+```
+
+Kotlin :
+
+```kotlin
+Thread(object : Runnable
+	override fun run() {
+		println("Thread is running")
+	}
+}).start()
+```
+
+### null pointer check
+
+null pointer exception may cause android system to crash
+
+Nullification is performed before some function is called
+
+For Kotlin, all param and expression can not be null in default.
+
+a "?" after typename means this param can be set to null
+
+```kotlin
+fun doStudy(study : Study ?){
+
+}
+```
+
+but nullPointerException still need to be solved
+
+operator (.?) is used to nullification
+
+```kotlin
+if(a != null){
+    a.doSomething()
+}
+
+// is equal to below expression
+a?.doSomething()
+```
+
+```kotlin
+val c = a ?: b
+// is equal to below expression
+val c = if(a != null){a}
+	else {b}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## END_FILE(LOADING_BOOK_3_PAGES_101)
+
